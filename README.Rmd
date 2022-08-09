@@ -1,0 +1,81 @@
+---
+output: github_document
+---
+
+# Columbo <img src="hex-logo/hex.png" align="right" height="139"/>
+A small dataset that contains information related to Columbo - the American crime drama television series starring Peter Falk.
+
+The data has been taken from multiple sources
+
+* Wikipedia [https://en.wikipedia.org/wiki/Columbo_(season_1)](https://en.wikipedia.org/wiki/Columbo_(season_1)) 
+* Mark Longair [https://longair.net/blog/2017/06/04/when-does-columbo-first-appear-in-each-episode/](https://longair.net/blog/2017/06/04/when-does-columbo-first-appear-in-each-episode/)
+
+This work is licensed under [Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+
+```{r warning = FALSE, message = FALSE, echo = FALSE}
+library(tidyverse)
+library(glue)
+library(lubridate)
+```
+## Data dictionary
+The .csv dataset is stored in this repository as *columbo_data.csv*
+
+* `columbo_data.csv`
+* **Warning!** The `description` field contains spoilers about the episodes
+
+```{r echo = FALSE, message=FALSE}
+tibble(`column name` = colnames(read_csv('columbo_data.csv')),
+       description = c(
+         "Season 0 is for pilot episodes. Season 10 collates several episodes and specials",
+         "Episode number (within season)",
+         "Episode number (over all seasons)",
+         "Episode title",
+         "Director",
+         "(S) = Story by (T) = Teleplay by",
+         "Actor(s) who played the murderer(s)",
+         "Actor(s) who played the victims(s)",
+         "Episode original air date",
+         "Time of Columbo's first appearance in episode (seconds)",
+         "Episode run time",
+         "Occupation of the murderer",
+         "Broadcasting network",
+         "Episode description (SPOILERS!)"),
+       attribution = c(
+         "Wikipedia",
+         "Wikipedia",
+         "Wikipedia",
+         "Wikipedia",
+         "Wikipedia",
+         "Wikipedia",
+         "Wikipedia",
+         "Wikipedia",
+         "Wikipedia",
+         "Mark Longair (https://longair.net/blog/)",
+         "Mark Longair (https://longair.net/blog/)",
+         "Mark Longair (https://longair.net/blog/)",
+         "Wikipedia",
+         "Wikipedia"
+         )) |> 
+  knitr::kable()
+```
+
+## A visualisation
+A quick visualisation showing the two distinct time periods when episodes of Columbo were being aired
+```{r, message = FALSE, echo = FALSE, width = 8, height = 6, out.width="100%", dpi=300}
+d <- read_csv('columbo_data.csv')
+
+ggplot(d) + 
+  geom_point(
+      aes(
+          x = episode_index, 
+          y = original_air_date, 
+          col = factor(season)),
+      size = 2)+
+  scale_x_continuous(breaks=scales::pretty_breaks(10))+
+  labs(
+      title = "Just one more thing...",
+      subtitle = glue("{nrow(d)} Columbo episodes from {year(min(d$original_air_date))} to {year(max(d$original_air_date))}"),
+      x = "Episode number",
+      y = "Original air date",
+      col = "Season")
+```

@@ -1,0 +1,8 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+columbo_subs_data.csv
+data-wrangling/parse-and-append-subtitles.R
+raw-data/subs/
+columbo.Rproj
