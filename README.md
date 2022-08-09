@@ -17,7 +17,8 @@ This work is licensed under [Attribution 4.0 International (CC BY
 
 The .csv dataset is stored in this repository as *columbo_data.csv*
 
--   `columbo_data.csv`
+-   I have tried to remove text parsing problems caused by special
+    characters but some certainly still remain
 -   **Warning!** The `description` field contains spoilers about the
     episodes
 
